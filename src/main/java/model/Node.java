@@ -1,9 +1,9 @@
 package model;
 
 public class Node {
-int value = -1;
-Node left = null;
-Node right = null;
+public int value = -1;
+public Node left = null;
+public Node right = null;
 public Node(int v) {
 	value = v;
 }
