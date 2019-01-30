@@ -40,7 +40,7 @@ public class ShortestPathInMatrixTest {
 
          */
 
-        int[][] matrix=new int[][]{{0,1,0,0},{0,1,0,0},{1,1,1,0},{1,0,1,0},{8,1,1,0}};
+        int[][] matrix=new int[][]{{1,1,0,0},{0,1,0,0},{1,1,1,0},{1,0,1,0},{1,1,1,0}};
 
         ShortestPathInMatrix spim=new ShortestPathInMatrix();
         int distance=spim.findShortestDistanceTo(4, 0, matrix);

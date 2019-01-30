@@ -18,15 +18,15 @@ public class ShortestPathInMatrix {
         return curr.col + 1 < matrix[0].length;
     }
 
-    Point right(Point curr, int[][] matrix, int distance){
+    Point right(Point curr, int distance){
         return new Point(curr.row, curr.col+1, distance);
     }
 
-    boolean hasLeft(Point curr, int[][] matrix){
+    boolean hasLeft(Point curr){
         return curr.col - 1 >= 0;
     }
 
-    Point left(Point curr, int[][] matrix, int distance){
+    Point left(Point curr, int distance){
         return new Point(curr.row, curr.col-1, distance);
     }
 
@@ -34,16 +34,16 @@ public class ShortestPathInMatrix {
         return curr.row + 1 < matrix.length;
     }
 
-    Point down(Point curr, int[][] matrix, int distance){
+    Point down(Point curr, int distance){
         return new Point(curr.row+1, curr.col, distance);
     }
 
 
-    boolean hasUp(Point curr, int[][] matrix){
+    boolean hasUp(Point curr){
         return curr.row - 1 >= 0;
     }
 
-    Point up(Point curr, int[][] matrix, int distance){
+    Point up(Point curr, int distance){
         return new Point(curr.row - 1, curr.col, distance);
     }
 
@@ -51,7 +51,13 @@ public class ShortestPathInMatrix {
         return src.row == dest.row && src.col == dest.col;
     }
 
+    boolean isVisited(boolean[][] visited, Point p){
+        return visited[p.row][p.col];
+    }
 
+    boolean isValid(Point p, boolean[][] visited, int[][] matrix){
+        return matrix[p.row][p.col]==1 && !isVisited(visited, p);
+    }
 
     public int findShortestDistanceTo(int dRow, int dCol, int[][] matrix) {
 
@@ -71,49 +77,40 @@ public class ShortestPathInMatrix {
 
         q.offer(new Point(row, col, distance));
 
+        boolean[][] visited=new boolean[matrix.length][matrix[0].length];
+
         while(!q.isEmpty()){
             Point currPoint=q.poll();
+            visited[currPoint.row][currPoint.col]=true;
             if(isDestination(currPoint, dest)){
                 return currPoint.distance;
             }
 
-            if(hasRight(currPoint, matrix)){
-                Point right=right(currPoint, matrix, currPoint.distance + 1);
-                if(isDestination(right, dest)){
-                    return right.distance;
-                }
-                if(matrix[right.row][right.col] == 1){
+            if(hasRight(currPoint, matrix) ){
+                Point right=right(currPoint, currPoint.distance + 1);
+                if(isValid(right, visited, matrix)){
                     q.offer(right);
                 }
             }
 
             if(hasDown(currPoint, matrix)){
-                Point down=down(currPoint, matrix, currPoint.distance + 1);
-                if(isDestination(down, dest)){
-                    return down.distance;
-                }
-                if(matrix[down.row][down.col] == 1){
+                Point down=down(currPoint, currPoint.distance + 1);
+                if(isValid(down, visited, matrix)){
                     q.offer(down);
                 }
             }
 
-            if(hasLeft(currPoint, matrix)){
-                Point left=left(currPoint, matrix, currPoint.distance + 1);
-                if(isDestination(left, dest)){
-                    return left.distance;
-                }
-                if(matrix[left.row][left.col] == 1){
+            if(hasLeft(currPoint)){
+                Point left=left(currPoint, currPoint.distance + 1);
+                if(isValid(left, visited, matrix)){
                     q.offer(left);
                 }
             }
 
 
-            if(hasUp(currPoint, matrix)){
-                Point up=up(currPoint, matrix, currPoint.distance + 1);
-                if(isDestination(up, dest)){
-                    return up.distance;
-                }
-                if(matrix[up.row][up.col] == 1){
+            if(hasUp(currPoint)){
+                Point up=up(currPoint, currPoint.distance + 1);
+                if(isValid(up, visited, matrix)){
                     q.offer(up);
                 }
             }
