@@ -10,16 +10,16 @@ public class ShortestPathInMatrixTest {
 
         /*
 
-            [ 0,   1,   0,   0 ]
-            [ 0,   1,   8,   0 ]
+            [ 1,   1,   0,   0 ]
+            [ 0,   1,   1,   0 ]
 
 
          */
 
-        int[][] matrix=new int[][]{{0,1,0,0},{0,1,8,0}};
+        int[][] matrix=new int[][]{{1,1,0,0},{0,1,1,0}};
 
         ShortestPathInMatrix spim=new ShortestPathInMatrix();
-        int distance=spim.findShortestDistanceTo(8, matrix);
+        int distance=spim.findShortestDistanceTo(1, 2, matrix);
 
         System.out.println(distance);
 
@@ -32,18 +32,18 @@ public class ShortestPathInMatrixTest {
 
         /*
 
-            [ 0,   1,   0,   0 ]
+            [ 1,   1,   0,   0 ]
             [ 0,   1,   0,   0 ]
             [ 1,   1,   1,   0 ]
             [ 1,   0,   1,   0 ]
-            [ 8,   1,   1,   0 ]
+            [ 1,   1,   1,   0 ]
 
          */
 
         int[][] matrix=new int[][]{{0,1,0,0},{0,1,0,0},{1,1,1,0},{1,0,1,0},{8,1,1,0}};
 
         ShortestPathInMatrix spim=new ShortestPathInMatrix();
-        int distance=spim.findShortestDistanceTo(8, matrix);
+        int distance=spim.findShortestDistanceTo(4, 0, matrix);
 
         System.out.println(distance);
 
@@ -54,7 +54,7 @@ public class ShortestPathInMatrixTest {
 
         /*
 
-            [ 0,   0,   0,   8 ]
+            [ 1,   0,   0,   1 ]
             [ 1,   1,   1,   1 ]
             [ 0,   0,   0,   0 ]
             [ 0,   0,   0,   0 ]
@@ -62,10 +62,10 @@ public class ShortestPathInMatrixTest {
 
          */
 
-        int[][] matrix=new int[][]{{0,0,0,8},{1,1,1,1},{0,0,0,0},{0,0,0,0},{8,0,0,0}};
+        int[][] matrix=new int[][]{{0,0,0,1},{1,1,1,1},{0,0,0,0},{0,0,0,0},{8,0,0,0}};
 
         ShortestPathInMatrix spim=new ShortestPathInMatrix();
-        int distance=spim.findShortestDistanceTo(8, matrix);
+        int distance=spim.findShortestDistanceTo(0, 3, matrix);
 
         System.out.println(distance);
 

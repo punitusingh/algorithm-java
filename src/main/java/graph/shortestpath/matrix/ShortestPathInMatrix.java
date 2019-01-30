@@ -47,19 +47,25 @@ public class ShortestPathInMatrix {
         return new Point(curr.row - 1, curr.col, distance);
     }
 
+    boolean isDestination(Point src, Point dest){
+        return src.row == dest.row && src.col == dest.col;
+    }
 
-    public int findShortestDistanceTo(int itemToFind, int[][] matrix) {
 
+
+    public int findShortestDistanceTo(int dRow, int dCol, int[][] matrix) {
+
+        //if [0][0] is the destination
+        if(dRow==0 && dCol==0){
+            return 0;
+        }
+
+        Point dest=new Point(dRow, dCol, 0);
         //add root in queue
         int row=0;
         int col=0;
 
         int distance=0;
-
-        //if [0][0] is the destination
-        if(matrix[row][col] == itemToFind){
-            return distance;
-        }
 
         Deque<Point> q=new ArrayDeque<>();
 
@@ -67,13 +73,13 @@ public class ShortestPathInMatrix {
 
         while(!q.isEmpty()){
             Point currPoint=q.poll();
-            if(matrix[currPoint.row][currPoint.col] == itemToFind){
+            if(isDestination(currPoint, dest)){
                 return currPoint.distance;
             }
 
             if(hasRight(currPoint, matrix)){
                 Point right=right(currPoint, matrix, currPoint.distance + 1);
-                if(matrix[right.row][right.col] == itemToFind){
+                if(isDestination(right, dest)){
                     return right.distance;
                 }
                 if(matrix[right.row][right.col] == 1){
@@ -83,7 +89,7 @@ public class ShortestPathInMatrix {
 
             if(hasDown(currPoint, matrix)){
                 Point down=down(currPoint, matrix, currPoint.distance + 1);
-                if(matrix[down.row][down.col] == itemToFind){
+                if(isDestination(down, dest)){
                     return down.distance;
                 }
                 if(matrix[down.row][down.col] == 1){
@@ -93,7 +99,7 @@ public class ShortestPathInMatrix {
 
             if(hasLeft(currPoint, matrix)){
                 Point left=left(currPoint, matrix, currPoint.distance + 1);
-                if(matrix[left.row][left.col] == itemToFind){
+                if(isDestination(left, dest)){
                     return left.distance;
                 }
                 if(matrix[left.row][left.col] == 1){
@@ -104,7 +110,7 @@ public class ShortestPathInMatrix {
 
             if(hasUp(currPoint, matrix)){
                 Point up=up(currPoint, matrix, currPoint.distance + 1);
-                if(matrix[up.row][up.col] == itemToFind){
+                if(isDestination(up, dest)){
                     return up.distance;
                 }
                 if(matrix[up.row][up.col] == 1){
