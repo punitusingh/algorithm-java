@@ -5,6 +5,19 @@ import java.util.Deque;
 
 public class ShortestPathInMatrix {
 
+    static int DIRECTIONS=4;
+    /*
+                    ROW     COL
+        TOP:        -1      0
+        RIGHT:      0       +1
+        BOTTOM:     +1      0
+        LEFT:       0       -1
+
+     */
+
+    static int[] ROW_MOV=new int[]{-1,0,+1,0};
+    static int[] COL_MOV=new int[]{0,+1,0,-1};
+
     class Point{
         int row,col, distance;
         Point(int x, int y, int d){
@@ -14,59 +27,24 @@ public class ShortestPathInMatrix {
         }
     }
 
-    boolean hasRight(Point curr, int[][] matrix){
-        return curr.col + 1 < matrix[0].length;
-    }
-
-    Point right(Point curr, int distance){
-        return new Point(curr.row, curr.col+1, distance);
-    }
-
-    boolean hasLeft(Point curr){
-        return curr.col - 1 >= 0;
-    }
-
-    Point left(Point curr, int distance){
-        return new Point(curr.row, curr.col-1, distance);
-    }
-
-    boolean hasDown(Point curr, int[][] matrix){
-        return curr.row + 1 < matrix.length;
-    }
-
-    Point down(Point curr, int distance){
-        return new Point(curr.row+1, curr.col, distance);
-    }
-
-
-    boolean hasUp(Point curr){
-        return curr.row - 1 >= 0;
-    }
-
-    Point up(Point curr, int distance){
-        return new Point(curr.row - 1, curr.col, distance);
-    }
-
     boolean isDestination(Point src, Point dest){
         return src.row == dest.row && src.col == dest.col;
     }
 
-    boolean isVisited(boolean[][] visited, Point p){
-        return visited[p.row][p.col];
+
+    boolean isValid(int row, int col, boolean[][] visited, int[][] matrix){
+        return isInBoundary(row, col, matrix) && !visited[row][col] && matrix[row][col]==1;
     }
 
-    boolean isValid(Point p, boolean[][] visited, int[][] matrix){
-        return matrix[p.row][p.col]==1 && !isVisited(visited, p);
+    boolean isInBoundary(int row, int col, int[][] matrix){
+        return row>=0 && row<matrix.length && col>=0 && col<matrix[0].length;
     }
 
     public int findShortestDistanceTo(int dRow, int dCol, int[][] matrix) {
-
         //if [0][0] is the destination
         if(dRow==0 && dCol==0){
             return 0;
         }
-
-        Point dest=new Point(dRow, dCol, 0);
         //add root in queue
         int row=0;
         int col=0;
@@ -78,7 +56,7 @@ public class ShortestPathInMatrix {
         q.offer(new Point(row, col, distance));
 
         boolean[][] visited=new boolean[matrix.length][matrix[0].length];
-
+        Point dest=new Point(dRow, dCol, 0);
         while(!q.isEmpty()){
             Point currPoint=q.poll();
             visited[currPoint.row][currPoint.col]=true;
@@ -86,35 +64,15 @@ public class ShortestPathInMatrix {
                 return currPoint.distance;
             }
 
-            if(hasRight(currPoint, matrix) ){
-                Point right=right(currPoint, currPoint.distance + 1);
-                if(isValid(right, visited, matrix)){
-                    q.offer(right);
+            for(int i=0;i<DIRECTIONS;i++){
+                int newRow=currPoint.row + ROW_MOV[i];
+                int newCol=currPoint.col + COL_MOV[i];
+
+                //if valid boundary row,col, and value is 1 then only
+                if(isValid(newRow, newCol, visited, matrix)){
+                    q.offer(new Point(newRow, newCol, currPoint.distance + 1));
                 }
             }
-
-            if(hasDown(currPoint, matrix)){
-                Point down=down(currPoint, currPoint.distance + 1);
-                if(isValid(down, visited, matrix)){
-                    q.offer(down);
-                }
-            }
-
-            if(hasLeft(currPoint)){
-                Point left=left(currPoint, currPoint.distance + 1);
-                if(isValid(left, visited, matrix)){
-                    q.offer(left);
-                }
-            }
-
-
-            if(hasUp(currPoint)){
-                Point up=up(currPoint, currPoint.distance + 1);
-                if(isValid(up, visited, matrix)){
-                    q.offer(up);
-                }
-            }
-
         }
 
         return -1;

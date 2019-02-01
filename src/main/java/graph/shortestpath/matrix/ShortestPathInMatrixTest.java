@@ -1,5 +1,6 @@
 package graph.shortestpath.matrix;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ShortestPathInMatrixTest {
@@ -23,7 +24,7 @@ public class ShortestPathInMatrixTest {
 
         System.out.println(distance);
 
-
+        Assertions.assertEquals(distance, 3);
     }
 
 
@@ -47,6 +48,7 @@ public class ShortestPathInMatrixTest {
 
         System.out.println(distance);
 
+        Assertions.assertEquals(distance, 6);
     }
 
     @Test
@@ -68,6 +70,8 @@ public class ShortestPathInMatrixTest {
         int distance=spim.findShortestDistanceTo(0, 3, matrix);
 
         System.out.println(distance);
+
+        Assertions.assertEquals(distance, 5);
 
     }
 }
