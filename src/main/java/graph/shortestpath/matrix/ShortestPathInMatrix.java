@@ -51,6 +51,8 @@ public class ShortestPathInMatrix {
 
         int distance=0;
 
+        int island=0;
+
         Deque<Point> q=new ArrayDeque<>();
 
         q.offer(new Point(row, col, distance));
